@@ -1,9 +1,10 @@
 package com.hitherejoe.androidboilerplate.injection.module;
 
 import android.app.Application;
+import android.content.Context;
 
-import com.hitherejoe.androidboilerplate.data.DataManager;
-import com.squareup.otto.Bus;
+import com.hitherejoe.androidboilerplate.data.remote.AndroidBoilerplateService;
+import com.hitherejoe.androidboilerplate.injection.ApplicationContext;
 
 import javax.inject.Singleton;
 
@@ -23,21 +24,20 @@ public class ApplicationModule {
     }
 
     @Provides
-    @Singleton
     Application provideApplication() {
         return mApplication;
     }
 
     @Provides
-    @Singleton
-    DataManager provideDataManager() {
-        return new DataManager(mApplication);
+    @ApplicationContext
+    Context provideContext() {
+        return mApplication;
     }
 
     @Provides
     @Singleton
-    Bus provideEventBus() {
-        return new Bus();
+    AndroidBoilerplateService provideAndroidBoilerplateService() {
+        return AndroidBoilerplateService.Factory.makeAndroidBoilerplateService(mApplication);
     }
 
 }
